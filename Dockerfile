@@ -27,7 +27,7 @@ RUN rm -rf /etc/apt/sources.list && \
 	rm /bin/sh && ln -s /bin/bash /bin/sh && \
 	apt-get update && \
 	apt-get install -y \
-	apt-get install sudo -y \
+	
 #Packages Installation
 	tzdata \
 	software-properties-common \
