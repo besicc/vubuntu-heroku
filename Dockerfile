@@ -34,6 +34,10 @@ RUN rm -rf /etc/apt/sources.list && \
 	apt-transport-https \
 	wget \
 	git \
+	apt-transport-https \
+        ca-certificates \
+        gnupg \
+        lsb-release \
 	ncdu \
 	curl \
 	vim \
@@ -109,11 +113,24 @@ RUN rm -rf /etc/apt/sources.list && \
 	wget https://updates.tdesktop.com/tlinux/tsetup.2.7.4.tar.xz -P /tmp && \
 	tar -xvf /tmp/tsetup.2.7.4.tar.xz -C /tmp && \
 	mv /tmp/Telegram/Telegram /usr/bin/telegram && \
+	
+#Docker
+       curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+       echo "deb [signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu/ stable main"|tee /etc/apt/sources.list.d/docker.list && \
+       apt update && \
+       apt install docker-ce docker-ce-cli containerd.io -y && \
+   #Brave
+	curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg && \
+	echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"|tee /etc/apt/sources.list.d/brave-browser-release.list && \
+	apt update && \
+	apt install brave-browser -y && \     
 #PowerShell
 	wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -P /tmp && \
 	apt install -y /tmp/packages-microsoft-prod.deb && \
 	apt update && \
 	apt-get install -y powershell
+
+  
 
 
 ENTRYPOINT ["supervisord", "-c"]
